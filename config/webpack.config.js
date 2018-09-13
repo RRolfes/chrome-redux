@@ -1,12 +1,12 @@
-const path = require('path')
-const CopyPlugin = require('copy-webpack-plugin')
-const HtmlPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
+const HtmlPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 require("babel-core/register");
 require("babel-polyfill");
 
-const PAGES_PATH = './src/pages'
+const PAGES_PATH = '../src/pages';
 
 function generateHtmlPlugins(items) {
   return items.map( (name) => new HtmlPlugin(
@@ -14,28 +14,23 @@ function generateHtmlPlugins(items) {
       filename: `./${name}.html`,
       chunks: [ name ],
     }
-  ))
+  ));
 }
 
 module.exports = {
   entry: {
-    background: [
-      'babel-polyfill',
-      `${PAGES_PATH}/background`,
-    ],
-    popup: [
-      'babel-polyfill',
-      `${PAGES_PATH}/popup`,
-    ]
+    background: "./src/pages/background/background.js",
+    popup: "./src/pages/popup/popup.js",
   },
   output: {
-    path: path.resolve('dist/pages'),
-    filename: '[name].js'
+    path: path.resolve(__dirname, '../dist'),
+    filename: "[name].js"
   },
   module: {
     rules: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
         use: [ 'babel-loader' ]
       },
       {
@@ -70,4 +65,4 @@ module.exports = {
       ]
     )
   ]
-}
+};
